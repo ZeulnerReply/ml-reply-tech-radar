@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ML Reply Tech Radar</title>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="radar.js"></script>
+
+<link rel="stylesheet" href="radar.css">
+</head>
+
+<body>
+
+<svg id="radar"></svg>
+
+<script>
+fetch('./config.json').then(function(response) {
+  return response.json();
+}).then(function(data) {
+  radar_visualization({
+    svg_id: "radar",
+    width: 1440,
+    height: 900,
+    colors: {
+      background: "#fff",
+      grid: '#dddde0',
+      inactive: "#ddd",
+      stroke: "#050000"
+    },
+    title: "ML Reply Tech Radar",
+    date: data.date,
+    quadrants: [
+      { name: "AI & ML" },
+      { name: "Infrastructure" },
+      { name: "Regulations" },
+      { name: "Data" },
+    ],
+    rings: [
+      { name: "ADOPT", fill: "#98FF98", color: "#ffffff" },
+      { name: "TRIAL", fill: "#00FF00", color: "#ffffff" },
+      { name: "ASSESS", fill: "#228B22", color: "#ffffff" },
+      { name: "HOLD", fill: "#008080", color: "#ffffff" }
+    ],
+    print_layout: true,
+    links_in_new_tabs: true,
+    // zoomed_quadrant: 0,
+    entries: data.entries
+  });
+}).catch(function(err) {
+  console.log('Error loading config.json', err);
+});
+</script>
+
+<div class="floating-box" id="floatingBox"></div>
+
+</body>
+</html>
